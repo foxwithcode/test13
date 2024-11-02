@@ -7,21 +7,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js"></script>
-    <script>
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const sessionId = getQueryParam('session_id');
-            if (sessionId) {
-                collectAndSendData(sessionId);
-            } else {
-                console.error('No session_id found in URL');
-            }
-        });
-    </script>
 </head>
 <body>
     <div class="content">
@@ -30,3 +15,4 @@
     </div>
 </body>
 </html>
+
